@@ -28,14 +28,14 @@ main:
 	
 	
 	#loop
-	ble	$t0,	$0,	end
+	ble	$t0,	$0,	end	#start loop
 loop:	li	$v0,	4		# print string
 	la	$a0,	buff
 	syscall
 	
 	addi	$t0,	$t0,	-1	#decrease counter
 	
-end:	bgt	$t0,	0,	loop
+end:	bgt	$t0,	0,	loop	#end loop
 
 	
 		
