@@ -1,6 +1,6 @@
 	.data
 prompt:		.asciiz "Enter a number less than or equal to 100 to convert to binary: \n"		#prompt
-attempt:	.asciiz "Try again: \n"		#test prompt
+attempt:	.asciiz "Try again: "		#test prompt
 convert:	.asciiz "Converting... \n"		#convert
 bin:		.asciiz " in binary is: \n"	#user numb to bin
 buff:	.byte	32	#32 byte for string
@@ -34,17 +34,25 @@ loop:	#print string prompt
 	li 	$v0,	5	#read int
 	syscall
 	
-	add	$t0,	$v0,	$0
-		
+	add	$t0,	$v0,	$0	
 	
 end:	bgt	$t0,	$t1,	loop	#end loop
 	#user input > 100	pass = back into loop
 	
 	#print convert 
 	li	$v0,	4	#loading address of string
-	la	$a0,	convert	#call prompt 1
+	la	$a0,	convert	#call convert
 	syscall
 	
+	#print int 
+	li	$v0,	1	#print int
+	move 	$a0, 	$t0
+	syscall
+	
+	#print bin 
+	li	$v0,	4	#loading address of string
+	la	$a0,	bin	#call bin
+	syscall
 	
 	#return
 	li	$v0,	10	
