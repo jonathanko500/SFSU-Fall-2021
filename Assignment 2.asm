@@ -53,14 +53,20 @@ end:	bgt	$t0,	$t1,	loop	#end loop
 	la	$a0,	bin	#call bin
 	syscall
 	
-	addi	$t2,	$t2,	8	#8 digit binary
+	addi	$t2,	$t2,	9	#8 digit binary
 	
 	
 	#loop to convert to binary
 	ble	$t2,	$0,	end2	#start loop
 loop2:	
-	li	$v0,	1	#print int
-	move 	$a0, 	$t0
+
+	#calc remainders
+	div	$t0,	$2
+	mfhi	$t1
+	
+
+	li	$v0,	1	#print remainder
+	move 	$a0, 	$t1
 	syscall
 	
 	addi	$t2,	$t2,	-1	#decrease counter
