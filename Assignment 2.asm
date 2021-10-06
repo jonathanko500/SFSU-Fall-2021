@@ -57,7 +57,7 @@ end:	bgt	$t0,	$t1,	loop	#end loop
 	addi	$t2,	$t2,	9	#8 digit binary
 	#loop to print binary
 		#loop
-	ble	$0,	$t2,	end2	#start loop
+	ble	$t2,	$0,	end2	#start loop
 loop2:	
 	
 	div	$t0,	$2
