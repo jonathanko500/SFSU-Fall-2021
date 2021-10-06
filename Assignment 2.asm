@@ -63,7 +63,7 @@ loop2:
 	move 	$a0, 	$t0
 	syscall
 	
-	addi	$t0,	$t0,	-1	#decrease counter
+	addi	$t2,	$t2,	-1	#decrease counter
 	
 end2:	bgt	$t2,	0,	loop2	#end loop
 	
