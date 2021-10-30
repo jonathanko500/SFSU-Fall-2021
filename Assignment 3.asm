@@ -17,9 +17,10 @@ main:
     	syscall
     
     	#call delim function/method
-    	la	$a0, str
-   	#jal delim
-   	jal strlen
+    	move	$a0,$s0
+    	la	$a0, str    	
+   	jal 	delim
+   	
    	
    	
    	
@@ -30,18 +31,23 @@ main:
     
  
 #delim function to get substrings
-#delim:
+delim:
+	li $t0, -1	#pointer    	
+	la $a0, str
+	jal strlen
+	move $t1, $v0	#length variable
+	
+	
 	
 
-
-    	#jr	$ra
+    	jr	$ra
     
     
 
 #find length of string   
 strlen:
 	li $t0, -1	#pointer
-    	move $s0, $a0	#string
+    	#move $s0, $a0	#string
     	
     	#loop through string and start counting
     	loop:
