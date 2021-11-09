@@ -1,6 +1,7 @@
 .data
 str:	.word 	32	#string input
 loc:	.byte	32	#array of substring
+buff:	.byte	32	#buffer array for sort
 .text
 
 
@@ -11,21 +12,13 @@ main:
     	li $a1, 32
     	syscall
     
-    	#print string input
-    	li	$v0,	4	
-    	la	$a0,	str	
-    	syscall
-    
+    	   
     	#call delim function/method
     	move	$a0,$s0
     	la	$a0, str    	
    	jal 	delim
    	
-   	#print string input
-    	li	$v0,	4	
-    	la	$a0,	str	
-    	syscall
-   	
+   	  	
    	
     
     	#return
@@ -70,17 +63,14 @@ search:	la $t0, str	#$t0 = str
 		addi $s2, $s2, 1	#j++	
 		addi $s3, $s3, 1	#i++
 	blt	$s3, $t1 loop
+	move $s2, $t0
+	
+	la $a0, str	#argument 1
+	la $a1, loc	#argument 2
 		
+	jal sort
 	
 	
-	
-	
-	
-	
-	
-	
-	
-
     	jr	$ra
     
     
@@ -103,9 +93,38 @@ strlen:
 	maxLen:
 		move $v0, $t0
         	jr $ra
-        	
+        
+#sort	
+sort:
+	loopSort:lw  $t0, 0($a0)         # $t0 = current element in array
+		lw  $t1, 4($a0)         # $t1 = next element in array
+		blt $t1, $t0, swap 	#compare elements of array
+		addi    $a0, $a0, 4
+		j   loop
+		
+	swap:	sw  $t0, 4($a0)         # switch higher element in higher element
+            	sw  $t1, 0($a0)         # switch lower element in lower element
+           	li  $a0, 0              # reset to 0
+            	j   loop    
+            	
+	la $a0, str
+	la $a3, buff
+	jal strcpy
 
+
+	jr	$ra
 	
 	
-
-
+	
+	
+	
+	
+strcpy:
+	lb	$t0, 0($a3)
+	sb	$t0, 0($a0)
+	addi	$a0, $a0, 1
+	addi	$a3, $a3, 1
+	bne	$t0, $0, strcpy
+	
+	jr $ra
+		
