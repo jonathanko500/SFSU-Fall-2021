@@ -1,0 +1,4 @@
+﻿  HW1.cpp
+C:\Users\Pie88\OneDrive\Desktop\SFSU-Fall-2021\MATH324-HW1\HW1.cpp(15,16): warning C4244: 'initializing': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Pie88\OneDrive\Desktop\SFSU-Fall-2021\MATH324-HW1\HW1.cpp(40,15): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+  MATH324-HW1.vcxproj -> C:\Users\Pie88\OneDrive\Desktop\SFSU-Fall-2021\MATH324-HW1\Debug\MATH324-HW1.exe
