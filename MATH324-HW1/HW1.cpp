@@ -2,11 +2,9 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <math.h>		/* math functions */
-
-
-
 using namespace std;
 
+//q1 const int
 const int rnSize = 40000;//make 40000
 const int meanSize = 2000;//make 2000
 
@@ -20,24 +18,27 @@ double avgMean(double x[], int xSize);
 double SD(double x[], int xSize);
 //could not figure out how to make a histogram of means
 
+//q2 functions
+
+
+
 int main()
 {
+	//set up randomizer to be random every time
 	// Get the system time.
 	unsigned seed = time(0);
-
 	// Seed the random number generator.
 	srand(seed);
-	
+	//*****************************************
+
 	//q1
 	int rnList[rnSize];//array of random numbers between -6 and 10
 	double means[meanSize];//means of nums
 	
-	makeMeans(rnList, means, rnSize, meanSize);
-
-	
+	makeMeans(rnList, means, rnSize, meanSize);	
 
 	double chance = prob(means, meanSize, 2.0, 2.4);
-	cout << "the probablity of mean is between 2.0 and 2.4 inclusive is: " << chance << endl;
+	cout << "the probablity of mean between 2.0 and 2.4 inclusive is: " << chance << endl;
 
 	double avg = avgMean(means, meanSize);
 	cout << "the mean of the means is : " << avg << endl;
@@ -45,7 +46,10 @@ int main()
 	double sd = SD(means, meanSize);
 	cout << "the standard deviation is : " << sd << endl;
 
-	printHistogram(means, meanSize);
+	//**************************************************
+	
+	//q2
+
 	
 	return 0;
 }
@@ -137,3 +141,4 @@ double SD(double x[], int xSize)
 }
 
 
+//q2 functions/methods
