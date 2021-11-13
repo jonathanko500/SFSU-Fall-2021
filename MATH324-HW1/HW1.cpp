@@ -5,11 +5,12 @@
 using namespace std;
 
 //q1 const int
-const int rnSize = 40000;//make 40000
-const int meanSize = 2000;//make 2000
+const int rnSize = 20;//40000 rng 
+const int meanSize = 5;//2000 sample
+const int len = 10;//range of variables for pareto distribution 
 
 
-//q1 functions/methods
+//functions/methods
 void makeNumbs(int x[], int size);
 void makeMeans(int x[], double y[], int xSize, int ySize);
 
@@ -18,8 +19,8 @@ double avgMean(double x[], int xSize);
 double SD(double x[], int xSize);
 //could not figure out how to make a histogram of means
 
-//q2 functions
-
+void makePDnum(float x[], int xSize);
+void makePDmean(float x[], float y[], int xSize, int ySize);
 
 
 int main()
@@ -30,7 +31,7 @@ int main()
 	// Seed the random number generator.
 	srand(seed);
 	//*****************************************
-
+	/*
 	//q1
 	int rnList[rnSize];//array of random numbers between -6 and 10
 	double means[meanSize];//means of nums
@@ -47,15 +48,18 @@ int main()
 	cout << "the standard deviation is : " << sd << endl;
 
 	//**************************************************
-	
+	*/
 	//q2
+	float pdNum[rnSize];//means of nums
+	float pdMeans[meanSize];//means of nums
+
+	//make pd array back to double
+	makePDmean(pdNum, pdMeans, rnSize, meanSize);
 
 	
-	return 0;
 }
 
 
-//q1 functions/methods
 
 //make array full of random numbers between -6 and 10
 void makeNumbs(int x[], int size)
@@ -70,7 +74,6 @@ void makeNumbs(int x[], int size)
 //make array full means
 void makeMeans(int x[], double y[], int xSize, int ySize)
 {
-	
 	int sum = 0;
 	double avg;
 	for (int i = 0; i < ySize; i++)
@@ -141,4 +144,44 @@ double SD(double x[], int xSize)
 }
 
 
-//q2 functions/methods
+//values from Pareto distribution
+void makePDnum(float x[], int xSize)
+{
+	float val[len];
+	int count = 1;
+	
+	for (int j = 0; j < len; j++)
+	{//array of numbs between 0 - 1	for y val	
+		val[j] = (float) count / (float) len;
+		count++;
+	}
+	int yPT;
+	float bottom;
+	float raise;
+	for (int j = 0; j < xSize; j++)
+	{//fill rnList
+		yPT = (rand() % len);
+		bottom = 1 - val[yPT];
+		raise = pow(bottom, 0.125);
+		x[j] = 1/raise;
+	}
+}
+
+void makePDmean(float x[], float y[], int xSize, int ySize)
+{
+	float sum = 0;
+	float avg;
+	for (int i = 0; i < ySize; i++)
+	{
+		makePDnum(x, xSize);
+		for (int j = 0; j < xSize; j++)
+		{
+			sum += x[j];
+		}
+		avg = (float)sum / xSize;
+		y[i] = avg;
+		sum == 0;
+		cout << y[i] << endl;
+
+	}
+}
