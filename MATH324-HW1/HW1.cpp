@@ -5,22 +5,26 @@
 using namespace std;
 
 //q1 const int
-const int rnSize = 20;//40000 rng 
-const int meanSize = 5;//2000 sample
-const int len = 10;//range of variables for pareto distribution 
+const int rnSize = 40000;//40000 rng 
+const int meanSize = 2000;//2000 sample
+const int len = 1000;//range of variables for pareto distribution 
 
 
 //functions/methods
 void makeNumbs(int x[], int size);
 void makeMeans(int x[], double y[], int xSize, int ySize);
 
-double prob(double x[],int xSize, double min, double max);
-double avgMean(double x[], int xSize);
-double SD(double x[], int xSize);
+double prob(double x[], int xSize, double min, double max);//q1
+double prob2(double x[], int xSize, double min, double max);//q2
+
+template <class T> T avgMean(T x[], int xSize);
+
+template <class T> T SD(T x[], int xSize);
+
 //could not figure out how to make a histogram of means
 
-void makePDnum(float x[], int xSize);
-void makePDmean(float x[], float y[], int xSize, int ySize);
+void makePDnum(double x[], int xSize);
+void makePDmean(double x[], double y[], int xSize, int ySize);
 
 
 int main()
@@ -31,32 +35,40 @@ int main()
 	// Seed the random number generator.
 	srand(seed);
 	//*****************************************
-	/*
+	
 	//q1
+	cout << "The following statements are for question 1. " << endl;
 	int rnList[rnSize];//array of random numbers between -6 and 10
 	double means[meanSize];//means of nums
 	
 	makeMeans(rnList, means, rnSize, meanSize);	
 
 	double chance = prob(means, meanSize, 2.0, 2.4);
-	cout << "the probablity of mean between 2.0 and 2.4 inclusive is: " << chance << endl;
+	cout << "the probablity of mean between 2.0 and 2.4 inclusive is: " << chance*100 << "%" << endl;
 
 	double avg = avgMean(means, meanSize);
 	cout << "the mean of the means is : " << avg << endl;
 	
 	double sd = SD(means, meanSize);
 	cout << "the standard deviation is : " << sd << endl;
-
+	
 	//**************************************************
-	*/
+	cout << "**************************************************" << endl;
 	//q2
-	float pdNum[rnSize];//means of nums
-	float pdMeans[meanSize];//means of nums
+	cout << "The following statements are for question 2. " << endl;
+	double pdNum[rnSize];//means of nums
+	double pdMeans[meanSize];//means of nums
 
-	//make pd array back to double
 	makePDmean(pdNum, pdMeans, rnSize, meanSize);
 
-	
+	double chance2 = prob(pdMeans, meanSize, 1.140, 1.142);
+	cout << "the probablity of mean between 1.140 and 1.142 exclusive is: " << chance2 * 100 << "%" << endl;
+
+	double avg2 = avgMean(pdMeans, meanSize);
+	cout << "the mean of the means is : " << avg2 << endl;
+
+	double sd2 = SD(pdMeans, meanSize);
+	cout << "the standard deviation is : " << sd2 << endl;
 }
 
 
@@ -85,12 +97,12 @@ void makeMeans(int x[], double y[], int xSize, int ySize)
 		}
 		avg = (double)sum / xSize;
 		y[i] = avg;
-		sum == 0;		
+		sum = 0;		
 	}
 }
 
-//find probability that mean is between x and y
-double prob(double x[], int xSize, double min, double max)
+//find probability that mean is between x and y q1
+double prob(double x[], int xSize, double min, double max)//q1
 {
 	double prob;
 	int count = 0;
@@ -105,11 +117,27 @@ double prob(double x[], int xSize, double min, double max)
 	return prob;
 }
 
-//find mean of means
-double avgMean(double x[], int xSize)
+//find probability that mean is between x and y q2
+double prob2(double x[], int xSize, double min, double max)//q2
 {
-	double avg;
-	double sum = 0.0;
+	double prob;
+	int count = 0;
+	for (int i = 0; i < xSize; i++)
+	{
+		if (x[i] < min || x[i] > max)
+		{
+			count++;
+		}
+	}
+	prob = 1 - ((double)count / xSize);
+	return prob;
+}
+
+//find mean of means
+template <class T> T avgMean(T x[], int xSize)
+{
+	T avg;
+	T sum = 0.0;
 	for (int i = 0; i < xSize; i++)
 	{
 		sum += x[i];
@@ -119,15 +147,15 @@ double avgMean(double x[], int xSize)
 }
 
 //find standard deviation
-double SD(double x[], int xSize)
+template <class T> T SD(T x[], int xSize)
 {
-	double recpSize = (double) 1 / (double) xSize;// 1/N
+	T recpSize = (double) 1 / (double) xSize;// 1/N
 
-	double avg = avgMean(x, meanSize);//mu
+	T avg = avgMean(x, meanSize);//mu
 
-	double sigma = 0;
-	double meanDiff;//mean from array - mu
-	double sqMeanDiff;//(mean from array - mu)^2
+	T sigma = 0;
+	T meanDiff;//mean from array - mu
+	T sqMeanDiff;//(mean from array - mu)^2
 	
 
 	for (int i = 0; i < xSize; i++)
@@ -137,40 +165,40 @@ double SD(double x[], int xSize)
 		sigma += sqMeanDiff;//total of all (mean - mu)^2
 	}
 	
-	double sd = sqrt(recpSize*sigma);//standard deviation
-
+	T sd = sqrt(recpSize*sigma);//standard deviation
 	return sd;
 
 }
 
 
 //values from Pareto distribution
-void makePDnum(float x[], int xSize)
+void makePDnum(double x[], int xSize)
 {
-	float val[len];
+	double val[len];
 	int count = 1;
 	
 	for (int j = 0; j < len; j++)
 	{//array of numbs between 0 - 1	for y val	
-		val[j] = (float) count / (float) len;
+		val[j] = (double) count / (double) len;
 		count++;
 	}
+	// x = 1 / (1-y)^0.125
 	int yPT;
-	float bottom;
-	float raise;
+	double bottom;
+	double raise;
 	for (int j = 0; j < xSize; j++)
-	{//fill rnList
-		yPT = (rand() % len);
-		bottom = 1 - val[yPT];
-		raise = pow(bottom, 0.125);
-		x[j] = 1/raise;
+	{//fill array of pareto dist val		
+		yPT = (rand() % len);//random y pt
+		bottom = 1 - val[yPT];//1 - y
+		raise = pow(bottom, 0.125);// (1 - y)^0.125
+		x[j] = 1/raise;//1 / [(1 - y)^0.125]
 	}
 }
 
-void makePDmean(float x[], float y[], int xSize, int ySize)
+void makePDmean(double x[], double y[], int xSize, int ySize)
 {
-	float sum = 0;
-	float avg;
+	double sum = 0;
+	double avg;
 	for (int i = 0; i < ySize; i++)
 	{
 		makePDnum(x, xSize);
@@ -178,10 +206,9 @@ void makePDmean(float x[], float y[], int xSize, int ySize)
 		{
 			sum += x[j];
 		}
-		avg = (float)sum / xSize;
+		//make mean of pd vals
+		avg = (double)sum / xSize;
 		y[i] = avg;
-		sum == 0;
-		cout << y[i] << endl;
-
+		sum = 0;
 	}
 }
