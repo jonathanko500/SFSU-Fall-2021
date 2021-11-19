@@ -1,1 +1,3 @@
 C:\Users\Jonathan\Desktop\SFSU-Fall-2021\MATH324-HW2\Debug\MATH324-HW2.exe
+C:\Users\Pie88\OneDrive\Desktop\SFSU-Fall-2021\MATH324-HW2\Debug\MATH324-HW2.exe
+C:\Users\Pie88\OneDrive\Desktop\SFSU-Fall-2021\MATH324-HW2\Debug\MATH324-HW2.pdb
